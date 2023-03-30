@@ -141,9 +141,14 @@ while not finalizar:
         categorias = mostrarCategorias(ruta_base)
         categoria_seleccionada = elegirCategoria(categorias)
         recetas = mostrarRecetas(categoria_seleccionada)
-        receta_seleccionada = elegirReceta(recetas)
-        leerReceta(receta_seleccionada)
+
+        if len(recetas) < 1:
+            print("No hay recetas en esta categoría")
+        else:
+            receta_seleccionada = elegirReceta(recetas)
+            leerReceta(receta_seleccionada)
         volverInicio()
+
     elif menu == 2:
         categorias = mostrarCategorias(ruta_base)
         categoria_seleccionada = elegirCategoria(categorias)
@@ -156,8 +161,13 @@ while not finalizar:
         categorias = mostrarCategorias(ruta_base)
         categoria_seleccionada = elegirCategoria(categorias)
         recetas = mostrarRecetas(categoria_seleccionada)
-        receta_seleccionada = elegirReceta(recetas)
-        eliminarReceta(receta_seleccionada)
+
+        if len(recetas) < 1:
+            print("No hay recetas en esta categoría")
+        else:
+            receta_seleccionada = elegirReceta(recetas)
+            eliminarReceta(receta_seleccionada)
+        
         volverInicio()
     elif menu == 5:
         categorias = mostrarCategorias(ruta_base)
