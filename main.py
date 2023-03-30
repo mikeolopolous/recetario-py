@@ -33,7 +33,7 @@ def inicio():
         print("[6] -> Salir...\n")
         opcion_menu = input("Elige una opción: ")
     
-    return opcion_menu
+    return int(opcion_menu)
 
 
 def mostrarCategorias(ruta):
@@ -84,40 +84,85 @@ def elegirReceta(recetas):
     return recetas[int(opcion_receta) - 1]
 
 
-inicio()
-menu = 0
+def leerReceta(receta):
+    print(Path.read_text(receta))
 
-if menu == 1:
-    categorias = mostrarCategorias(ruta_base)
-    categoria_seleccionada = elegirCategoria(categorias)
-    recetas = mostrarRecetas(categoria_seleccionada)
-    receta_seleccionada = elegirReceta(recetas)
-    # mostrar receta
-    # volver a inicio
-    pass
-elif menu == 2:
-    categorias = mostrarCategorias(ruta_base)
-    categoria_seleccionada = elegirCategoria(categorias)
-    # crear receta
-    # volver a inicio
-    pass
-elif menu == 3:
-    categorias = mostrarCategorias(ruta_base)
-    # volver a inicio
-    pass
-elif menu == 4:
-    categorias = mostrarCategorias(ruta_base)
-    categoria_seleccionada = elegirCategoria(categorias)
-    recetas = mostrarRecetas(categoria_seleccionada)
-    receta_seleccionada = elegirReceta(recetas)
-    # eliminar receta
-    # volver a inicio
-    pass
-elif menu == 5:
-    categorias = mostrarCategorias(ruta_base)
-    categoria_seleccionada = elegirCategoria(categorias)
-    # volver a inicio
-    pass
-elif menu == 6:
-    # Finalizar programa
-    pass
+
+def crearReceta(ruta):
+    existe = False
+    while not existe:
+        nombre_receta = input("Escribe nombre de receta: ") + ".txt"
+        cuerpo_receta = input("Ingresa el contenido de la receta:\n")
+        nueva_ruta = Path(ruta, nombre_receta)
+
+        if not os.path.exists(nueva_ruta):
+            Path.write_text(nueva_ruta, cuerpo_receta)
+            print(f"{nombre_receta} ha sido creada")
+            existe = True
+        else:
+            print("Ya existe una receta con ese nombre")
+
+
+def crearCategoria(ruta):
+    existe = False
+    while not existe:
+        nombre_categoria = input("Escribe nombre de la categoría: ")
+        nueva_ruta = Path(ruta, nombre_categoria)
+
+        if not os.path.exists(nueva_ruta):
+            Path.mkdir(nueva_ruta)
+            print(f"La categoría {nombre_categoria} ha sido creada")
+            existe = True
+        else:
+            print("Ya existe una categoria con ese nombre")
+
+
+def eliminarReceta(receta):
+    Path(receta).unlink()
+    print(f"{receta.name} ha sido eliminada")
+
+
+def eliminarCategoria(categoria):
+    Path(categoria).rmdir()
+    print(f"La categoría {categoria.name} ha sido eliminada")
+
+
+def volverInicio():
+    regresar = "x"
+    while regresar.lower() != "a":
+        regresar = input("Presiona 'a' para voler a inicio... ")
+
+
+finalizar = False
+while not finalizar:
+    menu = inicio()
+
+    if menu == 1:
+        categorias = mostrarCategorias(ruta_base)
+        categoria_seleccionada = elegirCategoria(categorias)
+        recetas = mostrarRecetas(categoria_seleccionada)
+        receta_seleccionada = elegirReceta(recetas)
+        leerReceta(receta_seleccionada)
+        volverInicio()
+    elif menu == 2:
+        categorias = mostrarCategorias(ruta_base)
+        categoria_seleccionada = elegirCategoria(categorias)
+        crearReceta(categoria_seleccionada)
+        volverInicio()
+    elif menu == 3:
+        crearCategoria(ruta_base)
+        volverInicio()
+    elif menu == 4:
+        categorias = mostrarCategorias(ruta_base)
+        categoria_seleccionada = elegirCategoria(categorias)
+        recetas = mostrarRecetas(categoria_seleccionada)
+        receta_seleccionada = elegirReceta(recetas)
+        eliminarReceta(receta_seleccionada)
+        volverInicio()
+    elif menu == 5:
+        categorias = mostrarCategorias(ruta_base)
+        categoria_seleccionada = elegirCategoria(categorias)
+        eliminarCategoria(categoria_seleccionada)
+        volverInicio()
+    elif menu == 6:
+        finalizar = True
