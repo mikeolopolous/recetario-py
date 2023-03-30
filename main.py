@@ -52,20 +52,52 @@ def mostrarCategorias(ruta):
     return categorias
 
 
+def elegirCategoria(categorias):
+    opcion_categoria = "x"
+    while not opcion_categoria.isnumeric() or int(opcion_categoria) not in range(1, len(categorias) + 1):
+        opcion_categoria = input("Elige una categoria: ")
+    
+    return categorias[int(opcion_categoria) - 1]
+
+
+def mostrarRecetas(ruta):
+    os.system("clear")
+    print("*" * 15, "Recetas", "*" * 15)
+    recetas = []
+    ruta_recetas = Path(ruta)
+    contador = 1
+
+    for receta in ruta_recetas.glob("**/*txt"):
+        str_receta = str(receta.name)
+        print(f"[{contador}] -> {str_receta}")
+        recetas.append(receta)
+        contador += 1
+
+    return recetas
+
+
+def elegirReceta(recetas):
+    opcion_receta = "x"
+    while not opcion_receta.isnumeric() or int(opcion_receta) not in range(1, len(recetas) + 1):
+        opcion_receta = input("Elige una receta: ")
+
+    return recetas[int(opcion_receta) - 1]
+
+
 inicio()
 menu = 0
 
 if menu == 1:
     categorias = mostrarCategorias(ruta_base)
-    # elegir categoria
-    # mostrar recetas
-    # elegir receta
+    categoria_seleccionada = elegirCategoria(categorias)
+    recetas = mostrarRecetas(categoria_seleccionada)
+    receta_seleccionada = elegirReceta(recetas)
     # mostrar receta
     # volver a inicio
     pass
 elif menu == 2:
     categorias = mostrarCategorias(ruta_base)
-    # elegir categoria
+    categoria_seleccionada = elegirCategoria(categorias)
     # crear receta
     # volver a inicio
     pass
@@ -75,15 +107,15 @@ elif menu == 3:
     pass
 elif menu == 4:
     categorias = mostrarCategorias(ruta_base)
-    # elegir categoria
-    # mostrar recetas
-    # elegir receta
+    categoria_seleccionada = elegirCategoria(categorias)
+    recetas = mostrarRecetas(categoria_seleccionada)
+    receta_seleccionada = elegirReceta(recetas)
     # eliminar receta
     # volver a inicio
     pass
 elif menu == 5:
     categorias = mostrarCategorias(ruta_base)
-    # elegir categoria
+    categoria_seleccionada = elegirCategoria(categorias)
     # volver a inicio
     pass
 elif menu == 6:
